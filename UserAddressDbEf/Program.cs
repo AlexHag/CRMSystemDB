@@ -1,72 +1,55 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using UserAddressDbEf.Context;
-using UserAddressDbEf.Models;
-using Microsoft.EntityFrameworkCore;
-using Bogus;
+﻿using UserAddressDbEf;
 
 class Program
 {
 
     public static void Main(string[] args)
     {
-        using (var db = new CustomerContext())
+        var print = new PrintFunctions();
+        switch (args[0])
         {
-            var allCustomers = CreateFakes(50);
-
-            foreach (var c in allCustomers)
-            {
-                db.Customers.Add(c);
-            }
-
-            db.SaveChanges();
-        }
-    }
-
-    public static List<Customer> CreateFakes(int amount)
-    {
-        var fakeAddresses = new Faker<Address>()
-            .RuleFor(p => p.StreetName, f => f.Address.StreetName())
-            .RuleFor(p => p.StreetNo, f => f.Random.Number(1, 100))
-            .RuleFor(p => p.City, f => f.Address.City())
-            .RuleFor(p => p.Country, f => f.Address.Country());
-        var allAddresses = fakeAddresses.Generate(amount);
-
-        var index = 0;
-        var fakeCustomers = new Faker<Customer>()
-            .RuleFor(p => p.Name, f => f.Name.FirstName())
-            .RuleFor(p => p.Email, (f, u) => f.Internet.Email(u.Name))
-            .RuleFor(p => p.PhoneNumber, f => f.Phone.PhoneNumber())
-            .RuleFor(p => p.Addresses, f => new List<Address>{allAddresses[index++]});
-        var allCustomers = fakeCustomers.Generate(amount);
-
-        return allCustomers;
-    }
-
-    public static void AddNewCustomers(int amount)
-    {
-        using (var db = new CustomerContext())
-        {
-            var allCustomers = CreateFakes(amount);
-
-            foreach (var c in allCustomers)
-            {
-                db.Customers.Add(c);
-            }
-
-            db.SaveChanges();
-        }
-    }
-
-    public static void PrintCustomer()
-    {
-        using (var db = new CustomerContext())
-        {
-            var query = from c in db.Customers orderby c.Name select c;
-
-            foreach (var c in query)
-            {
-                
-            }
+            case "help":
+                Console.WriteLine("Arguments are:");
+                Console.WriteLine("--AddNewCustomers {amount:int}".PadLeft(10));
+                Console.WriteLine("--PrintCustomerName".PadLeft(10));
+                Console.WriteLine("--PrintCustomerAndAddress".PadLeft(10));
+                Console.WriteLine("--PrintCustomerNameFilter {search:string}".PadLeft(10));
+                Console.WriteLine("--PrintCustomerNameAndAddressFilter {search:string}".PadLeft(10));
+                Console.WriteLine("--PrintCustomerNameById {id:int}".PadLeft(10));
+                Console.WriteLine("--PrintCustomerNameAndAddressById {id:int}".PadLeft(10));
+                break;
+            case "--AddNewCustomers":
+                print.AddNewCustomers(int.Parse(args[1]));
+                break;
+            case "--PrintCustomerName":
+                print.PrintCustomerName();
+                break;
+            case "--PrintCustomerAndAddress":
+                print.PrintCustomerAndAddress();
+                break;
+            case "--PrintCustomerNameFilter":
+                print.PrintCustomerNameFilter(args[1]);
+                break;
+            case "--PrintCustomerNameAndAddressFilter":
+                print.PrintCustomerNameAndAddressFilter(args[1]);
+                break;
+            case "--PrintCustomerNameById":
+                print.PrintCustomerNameById(int.Parse(args[1]));
+                break;
+            case "--PrintCustomerNameAndAddressById":
+                print.PrintCustomerNameAndAddressById(int.Parse(args[1]));
+                break;
+            default:
+                Console.WriteLine("Invalid arguments");
+                Console.WriteLine("Arguments are:");
+                Console.WriteLine("--AddNewCustomers {amount:int}".PadLeft(10));
+                Console.WriteLine("--PrintCustomerName".PadLeft(10));
+                Console.WriteLine("--PrintCustomerAndAddress".PadLeft(10));
+                Console.WriteLine("--PrintCustomerNameFilter {search:string}".PadLeft(10));
+                Console.WriteLine("--PrintCustomerNameAndAddressFilter {search:string}".PadLeft(10));
+                Console.WriteLine("--PrintCustomerNameById {id:int}".PadLeft(10));
+                Console.WriteLine("--PrintCustomerNameAndAddressById {id:int}".PadLeft(10));
+                break;
         }
     }
 }
