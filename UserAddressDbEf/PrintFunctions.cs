@@ -142,7 +142,7 @@ public class PrintFunctions
         {
             var person = (from p in db.Customers
                 join e in db.Addresses
-                    on p.Id equals e.Id
+                    on p.Id equals e.CustomerId
                 where p.Id == id
                 select new { 
                     Name = p.Name, 
@@ -154,7 +154,7 @@ public class PrintFunctions
                     Country = e.Country
                 }).ToList();
 
-            Console.WriteLine("Name:".PadRight(16) + "Email:".PadRight(36) + "Phone Number:".PadRight(26) + "Street Name:".PadRight(26) + "Street Number:".PadRight(20) + "City:".PadRight(26) + "Country:".PadRight(21));
+            Console.WriteLine("Name:".PadRight(16) + "Email:".PadRight(36) + "Phone Number:".PadRight(26) + "Street Name:".PadRight(26) + "Street Number:".PadRight(21) + "City:".PadRight(26) + "Country:".PadRight(21));
             
             foreach (var c in person)
             {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace UserAddressDbEf.Models;
+namespace server.Models;
 
 public class Customer
 {

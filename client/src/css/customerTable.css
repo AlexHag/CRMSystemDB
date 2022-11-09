@@ -1,0 +1,17 @@
+.customer-table {
+    text-align: center;
+}
+
+.App {
+    width: 100%;
+    margin: auto;
+}
+
+.customer-table {
+    width:100%;
+}
+
+.customer-th, .customer-td {
+    border:1px solid black;
+    padding:10px
+}

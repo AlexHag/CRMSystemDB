@@ -3,3 +3,6 @@ UserAddressDbEf/obj
 .vscode
 UserAddressDbEf/.idea/
 UserAddressDbEf/Migrations
+server/bin
+server/obj
+client/node_modules
