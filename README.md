@@ -3,6 +3,8 @@ First Do
 dotnet restore
 ```
 
+<b>NOTE</b> You probably want to change TargetFramework from .Net 7 to .Net 6 in both projects. Unless you're cool and use .Net 7.
+
 Hopefully the .csproj file will look like this
 ```
 <Project Sdk="Microsoft.NET.Sdk">
